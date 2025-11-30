@@ -54,8 +54,7 @@ Course final project for CpE 411 (Data Structures and Algorithms) – Batangas S
 3. Run the benchmark CLI to compare filters:
    ```powershell
    python -m dsa_median.benchmarks --image path/to/image.png --kernel 5 --noise 0.1
-   ```
-4. Launch the Flask API (serves SPA + JSON endpoint):
+   ```:
 4. Launch the Flask API (serves SPA + JSON endpoint). The repo includes `.flaskenv` and a thin `app.py`, so a plain `flask run` works:
    ```powershell
    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # only if scripts are blocked
