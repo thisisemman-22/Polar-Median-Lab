@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Polar Median Lab</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="winter-backdrop" aria-hidden="true"></div>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">CpE 411 Final Project</p>
+        <h1>Polar Median Lab</h1>
+        <p class="lede">
+          Upload a noisy image, pick a kernel size, and let the dual-heap median
+          filter bring back holiday clarity. All processing runs locally through
+          our optimized Python backend.
+        </p>
+        <div class="hero-tags">
+          <span>Dual Heap</span>
+          <span>Segment Tree</span>
+          <span>Flask</span>
+        </div>
+      </div>
+      <img src="/static/assets/tree.svg" alt="Holiday tree" />
+    </header>
+
+    <main>
+      <section class="panel">
+        <form id="denoise-form">
+          <label class="field">
+            <span>Image (PNG/JPG)</span>
+            <input type="file" name="image" accept="image/*" required />
+          </label>
+
+          <label class="field range">
+            <span>Kernel Size: <strong id="kernel-value">5</strong> px</span>
+            <input
+              type="range"
+              name="kernel"
+              min="3"
+              max="15"
+              step="2"
+              value="5"
+            />
+          </label>
+
+          <label class="field range">
+            <span>Inject Pepper & Salt Noise: <strong id="noise-value">0%</strong></span>
+            <input
+              type="range"
+              name="noise"
+              min="0"
+              max="40"
+              step="5"
+              value="0"
+            />
+          </label>
+
+          <label class="field toggle">
+            <input type="checkbox" name="add_noise" id="add-noise" />
+            <span>Add synthetic noise before filtering</span>
+          </label>
+
+          <div class="field split">
+            <label>
+              <input type="radio" name="strategy" value="optimized" checked />
+              Optimized (Dual Heap)
+            </label>
+            <label>
+              <input type="radio" name="strategy" value="brute" />
+              Brute Force
+            </label>
+          </div>
+
+          <button type="submit" class="cta">Denoise Image</button>
+          <p id="status" class="status" aria-live="polite">Drop an image to begin.</p>
+        </form>
+      </section>
+
+      <section class="panel gallery">
+        <article>
+          <h2>Original</h2>
+          <img id="preview-original" alt="Original preview" />
+        </article>
+        <article>
+          <h2>Noisy</h2>
+          <img id="preview-noisy" alt="Noisy preview" />
+        </article>
+        <article>
+          <h2>Denoised</h2>
+          <img id="preview-denoised" alt="Denoised preview" />
+        </article>
+      </section>
+
+      <section class="panel metrics">
+        <div>
+          <p class="metric-label">Runtime</p>
+          <p class="metric-value" id="metric-runtime">—</p>
+        </div>
+        <div>
+          <p class="metric-label">PSNR</p>
+          <p class="metric-value" id="metric-psnr">—</p>
+        </div>
+        <div>
+          <p class="metric-label">Mode</p>
+          <p class="metric-value" id="metric-mode">—</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Crafted with ❤️, NumPy, and heaps of holiday cheer.
+    </footer>
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>

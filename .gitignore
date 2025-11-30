@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyi
+*.pyz
+.python-version
+*.log
+
+# Packaging / build
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/
+.pytest_cache/
+coverage.xml
+.coverage*
+htmlcov/
+
+# Virtual environments
+.venv/
+.env/
+
+# VS Code
+.vscode/
+
+# JetBrains / misc editors
+.idea/
+.ropeproject/
+
+# Data artifacts
+reports/*.png
+reports/*.csv
+reports/*.json
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+Icon?

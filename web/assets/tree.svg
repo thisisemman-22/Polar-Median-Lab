@@ -1,0 +1,18 @@
+<svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Holiday tree">
+  <defs>
+    <linearGradient id="tree" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2ecc71" />
+      <stop offset="100%" stop-color="#0e7c4b" />
+    </linearGradient>
+  </defs>
+  <rect width="260" height="260" rx="24" fill="#103b2b" />
+  <polygon points="130,20 210,140 50,140" fill="url(#tree)" />
+  <polygon points="130,60 220,180 40,180" fill="url(#tree)" opacity="0.9" />
+  <polygon points="130,100 230,220 30,220" fill="url(#tree)" opacity="0.8" />
+  <rect x="112" y="200" width="36" height="50" fill="#8d5524" rx="6" />
+  <circle cx="130" cy="40" r="12" fill="#f1c40f" />
+  <circle cx="90" cy="150" r="8" fill="#e74c3c" />
+  <circle cx="170" cy="150" r="8" fill="#f5e960" />
+  <circle cx="110" cy="190" r="6" fill="#1abc9c" />
+  <circle cx="150" cy="190" r="6" fill="#3498db" />
+</svg>

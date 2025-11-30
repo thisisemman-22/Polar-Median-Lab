@@ -1,0 +1,47 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Snowy night landscape</title>
+  <desc id="desc">Illustrated winter hills with aurora sky and pine trees.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#052037" />
+      <stop offset="50%" stop-color="#0a2741" />
+      <stop offset="100%" stop-color="#081827" />
+    </linearGradient>
+    <linearGradient id="aurora" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#44ffd6" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#b8ffea" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#ffec99" stop-opacity="0.25" />
+    </linearGradient>
+    <linearGradient id="mountain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#132d3d" />
+      <stop offset="100%" stop-color="#081a28" />
+    </linearGradient>
+    <linearGradient id="snow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f9fdff" />
+      <stop offset="100%" stop-color="#d4e7ef" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)" />
+  <path d="M0 220 C200 80 400 60 640 180 C880 300 1100 220 1300 120 C1500 20 1780 40 1920 120 L1920 0 L0 0 Z" fill="url(#aurora)" opacity="0.4" />
+  <g fill="#ffffff" opacity="0.35">
+    <circle cx="200" cy="180" r="2" />
+    <circle cx="450" cy="120" r="2" />
+    <circle cx="720" cy="90" r="1.5" />
+    <circle cx="980" cy="160" r="2" />
+    <circle cx="1200" cy="60" r="2.5" />
+    <circle cx="1500" cy="140" r="1.8" />
+    <circle cx="1720" cy="100" r="2.2" />
+    <circle cx="300" cy="60" r="1.6" />
+    <circle cx="1020" cy="40" r="2" />
+    <circle cx="1380" cy="200" r="1.4" />
+  </g>
+  <path d="M-40 640 C240 500 580 540 820 620 C1060 700 1380 660 1620 540 C1800 450 1960 460 2000 480 L2000 1080 L-40 1080 Z" fill="url(#mountain)" />
+  <path d="M-60 860 C180 720 420 780 640 840 C860 900 1100 870 1420 780 C1660 712 1900 720 2000 760 L2000 1080 L-60 1080 Z" fill="url(#snow)" />
+  <g fill="#0b2c2d">
+    <path d="M280 770 L310 680 L340 770 Z" />
+    <path d="M320 770 L350 690 L380 770 Z" />
+    <path d="M520 780 L550 690 L580 780 Z" />
+    <path d="M1520 800 L1550 700 L1580 800 Z" />
+    <path d="M1580 820 L1610 720 L1640 820 Z" />
+  </g>
+</svg>

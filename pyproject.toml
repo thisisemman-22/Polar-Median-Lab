@@ -1,0 +1,31 @@
+[project]
+name = "dsa-median-filter"
+version = "0.1.0"
+description = "Optimized sliding-window median filtering toolkit using dual heaps and segment trees"
+readme = "README.md"
+authors = [
+    { name = "CpE 411 Team", email = "team@example.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "pillow>=10.0",
+    "matplotlib>=3.8",
+    "scikit-image>=0.23",
+    "tqdm>=4.66",
+    "flask>=3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+    "black>=24.8",
+    "ruff>=0.6"
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
