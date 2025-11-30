@@ -15,6 +15,8 @@ Course final project for CpE 411 (Data Structures and Algorithms) – Batangas S
 .
 ├── docs/
 │   └── proposal.md
+├── .flaskenv
+├── app.py
 ├── src/
 │   └── dsa_median/
 │       ├── __init__.py
@@ -54,10 +56,13 @@ Course final project for CpE 411 (Data Structures and Algorithms) – Batangas S
    python -m dsa_median.benchmarks --image path/to/image.png --kernel 5 --noise 0.1
    ```
 4. Launch the Flask API (serves SPA + JSON endpoint):
+4. Launch the Flask API (serves SPA + JSON endpoint). The repo includes `.flaskenv` and a thin `app.py`, so a plain `flask run` works:
    ```powershell
-   python -m flask --app src/dsa_median/webapp.py run --no-reload --port 8000
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # only if scripts are blocked
+   .\.venv\Scripts\Activate.ps1
+   flask run --no-reload
    ```
-   Visit http://localhost:8000 to use the Polar Median Lab UI, or call `/api/denoise` directly from integration tests.
+   This starts `src/dsa_median/webapp.py` on port 8000. Visit http://localhost:8000 to use the Polar Median Lab UI, or call `/api/denoise` directly from integration tests.
 5. Capture benchmark figures or logs from the CLI run to document acceleration and fidelity.
 
 ## Filtering Backends
