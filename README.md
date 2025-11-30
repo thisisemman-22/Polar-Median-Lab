@@ -69,8 +69,3 @@ Course final project for CpE 411 (Data Structures and Algorithms) – Batangas S
 - **Static UI**: `web/` contains a lightweight SPA. When the Flask app runs, `/` serves `index.html` and `/static` exposes the remaining assets.
 - **Endpoint**: `POST /api/denoise` accepts `image` (file), `kernel`, `strategy` (`optimized|brute`), and optional `noise/add_noise` controls.
 - **Response**: JSON containing runtime, PSNR, and base64 previews for original/noisy/denoised frames.
-
-## Next Steps
-- Populate `data/` with sample frames for benchmarking (ignored from git by default).
-- Use the benchmarking script to capture runtime charts for the final documentation.
-- Tweak algorithm parameters (window size, histogram bins) to hit the desired accuracy/performance point.
