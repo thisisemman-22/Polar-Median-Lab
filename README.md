@@ -65,9 +65,9 @@ Course final project for CpE 411 (Data Structures and Algorithms) – Batangas S
 5. Capture benchmark figures or logs from the CLI run to document acceleration and fidelity.
 
 ## Filtering Backends
-- `optimized_median_filter(..., backend="heap")` forces the dual-heap + Fenwick-tree pipeline that demonstrates the required data structures.
-- `backend="vectorized"` uses a pure NumPy sliding-window/partition backend that runs in C and is ideal for multi-megapixel frames (the Flask API default).
-- `backend="auto"` (default) picks the heap path for smaller pedagogical samples and switches to the fast vectorized backend once the image exceeds ~320×320 pixels.
+- `optimized_median_filter(..., backend="auto")` (Polar Median Lab UI default) now prefers the fast NumPy/vectorized backend so the optimized strategy outpaces the intentionally slow brute-force baseline. Pass a positive `auto_threshold` (pixel count) if you want small demo images to fall back to the dual-heap/Fenwick/dictionary pipeline automatically.
+- `backend="heap"` forces the data-structure-rich implementation regardless of image size—useful when you need to highlight the four DS requirements explicitly.
+- `backend="vectorized"` explicitly opts into the NumPy backend. For `backend="auto"` this is already the behavior unless you tweak `auto_threshold`.
 
 ## Web/API Notes
 - **Static UI**: `web/` contains a lightweight SPA. When the Flask app runs, `/` serves `index.html` and `/static` exposes the remaining assets.

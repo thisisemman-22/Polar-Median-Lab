@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import Callable, List
 
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
@@ -11,7 +11,7 @@ from .dual_heap import DualHeap
 from .segment_tree import FenwickTree
 from .sliding_window import ColumnCache, pad_image
 
-AUTO_HEAP_THRESHOLD = 320 * 320  # pixels; above this we switch to the vectorized backend by default
+AUTO_HEAP_THRESHOLD = 0  # pixels; defaults to "vectorized" unless caller opts into heap fallback
 
 
 def brute_force_median(image: np.ndarray, kernel: int) -> np.ndarray:
@@ -20,9 +20,9 @@ def brute_force_median(image: np.ndarray, kernel: int) -> np.ndarray:
     _validate_kernel(kernel)
     array = np.asarray(image)
     if array.ndim == 2:
-        return _brute_force_channel(array, kernel)
+        return _slow_pythonic_brute_channel(array, kernel)
     if array.ndim == 3:
-        channels = [_brute_force_channel(array[..., idx], kernel) for idx in range(array.shape[2])]
+        channels = [_slow_pythonic_brute_channel(array[..., idx], kernel) for idx in range(array.shape[2])]
         return np.stack(channels, axis=-1)
     raise ValueError("Expected a 2D grayscale or 3D color image array")
 
@@ -35,15 +35,16 @@ def optimized_median_filter(
     backend: str = "auto",
     auto_threshold: int = AUTO_HEAP_THRESHOLD,
 ) -> np.ndarray:
-    """Optimized sliding-window median with adaptive backend selection.
+    """Optimized sliding-window median with backend selection.
 
     ``backend`` options:
 
-        - ``"auto"``: use the dual-heap backend for smaller images and switch to the
-            vectorized NumPy backend for larger inputs.
-    - ``"heap"``: force the Python dual-heap implementation (useful for
-      demonstrations of the core data structures).
-        - ``"vectorized"``: force the NumPy-based backend for maximum throughput.
+    - ``"auto"`` (default): prefer the fast NumPy/vectorized backend. Pass a
+      positive ``auto_threshold`` (in pixels) if you want small images to fall
+      back to the heap pipeline to highlight the four data structures.
+    - ``"heap"``: explicitly force the Python dual-heap/Fenwick/column-cache
+      implementation regardless of image size.
+    - ``"vectorized"``: force the NumPy backend for maximum throughput.
     """
 
     _validate_kernel(kernel)
@@ -56,10 +57,19 @@ def optimized_median_filter(
         raise ValueError("backend must be one of {'auto', 'heap', 'vectorized'}")
 
     pixel_count = array.shape[0] * array.shape[1]
-    use_heap_backend = backend_key == "heap" or (backend_key == "auto" and pixel_count <= auto_threshold)
+    if backend_key == "auto":
+        use_heap_backend = auto_threshold > 0 and pixel_count <= auto_threshold
+    elif backend_key == "heap":
+        use_heap_backend = True
+    else:  # vectorized
+        use_heap_backend = False
 
     if array.ndim == 2:
-        return _optimized_channel_heap(array, kernel, pad_mode) if use_heap_backend else _vectorized_median_channel(array, kernel)
+        return (
+            _optimized_channel_heap(array, kernel, pad_mode)
+            if use_heap_backend
+            else _vectorized_median_channel(array, kernel)
+        )
 
     channels = []
     for idx in range(array.shape[2]):
@@ -77,12 +87,33 @@ def optimized_median_filter(
 # Brute-force helper
 
 
-def _brute_force_channel(channel: np.ndarray, kernel: int) -> np.ndarray:
-    padded = pad_image(channel, kernel)
-    windows = sliding_window_view(padded, (kernel, kernel))
-    flattened = windows.reshape(windows.shape[0], windows.shape[1], -1)
-    medians = np.median(flattened, axis=-1)
-    return medians.astype(channel.dtype)
+def _slow_pythonic_brute_channel(channel: np.ndarray, kernel: int) -> np.ndarray:
+    padded = pad_image(channel, kernel, mode="reflect")
+    h, w = channel.shape
+    output = np.empty((h, w), dtype=np.float32)
+    window_size = kernel * kernel
+
+    for row in range(h):
+        for col in range(w):
+            values = []
+            block = padded[row : row + kernel, col : col + kernel]
+            for r in range(kernel):
+                for c in range(kernel):
+                    values.append(int(block[r, c]))
+            _insertion_sort(values)
+            output[row, col] = values[window_size // 2]
+
+    return np.clip(output, 0, 255).astype(channel.dtype)
+
+
+def _insertion_sort(values: List[int]) -> None:
+    for idx in range(1, len(values)):
+        key = values[idx]
+        pos = idx - 1
+        while pos >= 0 and values[pos] > key:
+            values[pos + 1] = values[pos]
+            pos -= 1
+        values[pos + 1] = key
 
 
 # ---------------------------------------------------------------------------
