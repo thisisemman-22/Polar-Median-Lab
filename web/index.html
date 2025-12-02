@@ -42,17 +42,31 @@
 
           <label class="field range">
             <span>Kernel Size: <strong id="kernel-value">5</strong> px</span>
-            <input
-              type="range"
-              name="kernel"
-              min="3"
-              max="15"
-              step="2"
-              value="5"
-            />
+            <div class="kernel-controls">
+              <input
+                type="range"
+                name="kernel"
+                min="3"
+                max="31"
+                step="2"
+                value="5"
+                aria-label="Kernel size slider"
+              />
+              <input
+                type="number"
+                id="kernel-number"
+                min="3"
+                max="31"
+                step="2"
+                value="5"
+                inputmode="numeric"
+                aria-label="Kernel size manual entry"
+              />
+            </div>
+            <small class="hint">Odd values between 3 and 31 pixels.</small>
           </label>
 
-          <label class="field range">
+          <label class="field range" data-noise-field>
             <span>Inject Pepper & Salt Noise: <strong id="noise-value">0%</strong></span>
             <input
               type="range"

@@ -11,20 +11,49 @@ const modeEl = document.getElementById('metric-mode');
 
 const fileInput = form.elements.namedItem('image');
 const kernelInput = form.elements.namedItem('kernel');
+const kernelNumberInput = document.getElementById('kernel-number');
 const noiseInput = form.elements.namedItem('noise');
 const addNoiseInput = document.getElementById('add-noise');
+const noiseField = document.querySelector('[data-noise-field]');
 const submitButton = form.querySelector('.cta');
 
 const formControls = Array.from(form.elements);
+if (kernelNumberInput) {
+  formControls.push(kernelNumberInput);
+}
+
+const KERNEL_MIN = 3;
+const KERNEL_MAX = 31;
 
 kernelInput.addEventListener('input', () => {
-  kernelValue.textContent = kernelInput.value;
+  const normalized = normalizeKernel(kernelInput.value);
+  kernelInput.value = normalized;
+  if (kernelNumberInput) {
+    kernelNumberInput.value = normalized;
+  }
+  kernelValue.textContent = normalized;
 });
+
+if (kernelNumberInput) {
+  kernelNumberInput.addEventListener('input', () => {
+    const normalized = normalizeKernel(kernelNumberInput.value);
+    kernelNumberInput.value = normalized;
+    kernelInput.value = normalized;
+    kernelValue.textContent = normalized;
+  });
+}
 
 noiseInput.addEventListener('input', () => {
   noiseValue.textContent = `${noiseInput.value}%`;
   addNoiseInput.checked = noiseInput.value !== '0';
+  updateNoiseField(addNoiseInput.checked);
 });
+
+addNoiseInput.addEventListener('change', (event) => {
+  updateNoiseField(event.target.checked);
+});
+
+updateNoiseField(addNoiseInput.checked);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -34,7 +63,7 @@ form.addEventListener('submit', async (event) => {
   }
   statusEl.textContent = 'Processing image with festive magic…';
   const formData = new FormData(form);
-  formData.set('kernel', ensureOddKernel(formData.get('kernel')));
+  formData.set('kernel', normalizeKernel(formData.get('kernel')));
   formData.set('noise', String(Number(formData.get('noise')) / 100));
   formData.set('add_noise', addNoiseInput.checked ? 'true' : 'false');
   setProcessingState(true);
@@ -68,9 +97,28 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
-function ensureOddKernel(value) {
-  const n = Number(value);
-  return n % 2 === 0 ? n + 1 : n;
+function normalizeKernel(value) {
+  let n = Number(value);
+  if (!Number.isFinite(n)) {
+    n = KERNEL_MIN;
+  }
+  n = Math.round(n);
+  n = Math.min(Math.max(n, KERNEL_MIN), KERNEL_MAX);
+  if (n % 2 === 0) {
+    n = n === KERNEL_MAX ? n - 1 : n + 1;
+  }
+  return n;
+}
+
+function updateNoiseField(isChecked) {
+  if (!noiseField) {
+    return;
+  }
+  noiseField.dataset.hidden = isChecked ? 'false' : 'true';
+  if (!isChecked) {
+    noiseInput.value = '0';
+    noiseValue.textContent = '0%';
+  }
 }
 
 function formatMetric(value, { digits = 1, suffix = '', fallback = '—' } = {}) {
