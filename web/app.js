@@ -11,16 +11,12 @@ const modeEl = document.getElementById('metric-mode');
 
 const fileInput = form.elements.namedItem('image');
 const kernelInput = form.elements.namedItem('kernel');
-const kernelNumberInput = document.getElementById('kernel-number');
 const noiseInput = form.elements.namedItem('noise');
 const addNoiseInput = document.getElementById('add-noise');
 const noiseField = document.querySelector('[data-noise-field]');
 const submitButton = form.querySelector('.cta');
 
 const formControls = Array.from(form.elements);
-if (kernelNumberInput) {
-  formControls.push(kernelNumberInput);
-}
 
 const KERNEL_MIN = 3;
 const KERNEL_MAX = 31;
@@ -28,20 +24,8 @@ const KERNEL_MAX = 31;
 kernelInput.addEventListener('input', () => {
   const normalized = normalizeKernel(kernelInput.value);
   kernelInput.value = normalized;
-  if (kernelNumberInput) {
-    kernelNumberInput.value = normalized;
-  }
   kernelValue.textContent = normalized;
 });
-
-if (kernelNumberInput) {
-  kernelNumberInput.addEventListener('input', () => {
-    const normalized = normalizeKernel(kernelNumberInput.value);
-    kernelNumberInput.value = normalized;
-    kernelInput.value = normalized;
-    kernelValue.textContent = normalized;
-  });
-}
 
 noiseInput.addEventListener('input', () => {
   noiseValue.textContent = `${noiseInput.value}%`;
