@@ -122,15 +122,15 @@ def _insertion_sort(values: List[int]) -> None:
 
 def _optimized_channel_heap(channel: np.ndarray, kernel: int, pad_mode: str) -> np.ndarray:
     pad = kernel // 2
-    padded = pad_image(channel, kernel, mode=pad_mode).astype(np.uint8, copy=False)
+    padded = pad_image(channel, kernel, mode=pad_mode).astype(np.uint8, copy=False)  # Data structure 1: padded 2D array tiles
     h, w = channel.shape
     output = np.empty((h, w), dtype=np.float32)
     window_area = kernel * kernel
 
     for row in range(h):
-        dual_heap = DualHeap()
-        histogram = FenwickTree(255)
-        column_cache = ColumnCache(padded, kernel, row)
+        dual_heap = DualHeap()  # Data structure 2: min/max-heap pair for streaming median
+        histogram = FenwickTree(255)  # Data structure 3: tree-based array (Fenwick) for histogram queries
+        column_cache = ColumnCache(padded, kernel, row)  # Data structure 4: dictionary-backed column cache
         _seed_window(dual_heap, histogram, padded[row : row + kernel, 0:kernel])
 
         for col in range(w):
