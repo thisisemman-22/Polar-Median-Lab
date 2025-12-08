@@ -1,6 +1,6 @@
-# Accelerating Median Filtering for Image Noise Reduction
+# Accelerating Median Filtering For Image Noise Reduction: An Integration Of Tree-Based Arrays And Priority Queue Pairs
 
-Course final project for CpE 411 (Data Structures and Algorithms) – Batangas State University TNEU. The system delivers a high-performance median filter for salt-and-pepper noise removal by combining three synergistic data structures: 2D arrays for pixel storage, a priority-queue pair (dual heap) for O(log k) median maintenance, and a tree-based array (Fenwick/segment tree) for fast histogram queries augmented with a dictionary cache. Benchmarks compare the optimized filter against a brute-force baseline to quantify speedups and fidelity.
+Course final project for CpE 411 (Data Structures and Algorithms) – Batangas State University TNEU by Abril, Steven Dave D., Magtibay, Jarom L., Tamboong, Emmanuel P., and Villaflor, James G.. The system delivers a high-performance median filter for salt-and-pepper noise removal by combining three synergistic data structures: 2D arrays for pixel storage, a priority-queue pair (dual heap) for O(log k) median maintenance, and a tree-based array (Fenwick/segment tree) for fast histogram queries augmented with a dictionary cache. Benchmarks compare the optimized filter against a brute-force baseline to quantify speedups and fidelity.
 
 ## Core Requirements
 - **Data Structures**: 2D Array, Priority Queue Pair (Min/Max heaps), Fenwick/Segment Tree, Dictionary cache.
